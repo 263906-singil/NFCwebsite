@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>책상 위 공부방</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Nanum+Pen+Script&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2b2520;--paper:#fbf7ec;--line:#ddd2b8;--en:#2d5a94;--ma:#2a7560;--sc:#9a4046;--hl:#ffe45e}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:'Special Elite','Nanum Gothic Coding',monospace;color:var(--ink);overflow:hidden;background:#3b2417;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+button{font-family:inherit}
+#desk{position:fixed;inset:0;background:radial-gradient(110% 80% at 50% 30%,rgba(255,225,175,.4),transparent 62%),radial-gradient(120% 100% at 50% 50%,transparent 55%,rgba(0,0,0,.45)),repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 2px,transparent 2px 9px),linear-gradient(170deg,#a77450,#5f3a26 70%,#40251a)}
+.sta{position:absolute;inset:0;width:100%;height:100%}.sta g,.sta circle{filter:drop-shadow(3px 6px 3px rgba(0,0,0,.45))}
+#shelf{position:absolute;left:46%;top:52%;transform:translate(-50%,-50%);display:flex;gap:clamp(10px,3vw,40px);align-items:flex-end}
+.bk{width:clamp(86px,19vw,180px);aspect-ratio:3/4;border:0;border-radius:3px 10px 10px 3px;color:#fff;cursor:pointer;position:relative;text-align:left;background:linear-gradient(135deg,var(--c2),var(--c1) 55%,var(--c3));box-shadow:1px 0 0 #f4ecd8,3px 0 0 #d8ceb2,5px 0 0 #f4ecd8,7px 0 0 #c9bb98,16px 20px 26px rgba(0,0,0,.55),inset 9px 0 8px -6px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.12);transition:transform .25s}
+.bk:nth-child(1){transform:rotate(-4deg)}.bk:nth-child(2){transform:rotate(1.5deg) translateY(-8px)}.bk:nth-child(3){transform:rotate(5deg)}
+.bk:hover,.bk:focus-visible{transform:translateY(-14px) rotate(0);outline:none}
+.bk::before{content:"";position:absolute;inset:12px 12px 12px 22px;border:1.5px solid rgba(255,255,255,.5);border-radius:2px}
+.bk span{position:relative;display:block;padding:34% 10px 0 26px;font:700 clamp(18px,3.6vw,30px) 'Special Elite','Nanum Gothic Coding',monospace;text-shadow:0 2px 3px rgba(0,0,0,.35)}
+.bk i{display:block;font:400 .5em 'Special Elite',monospace;opacity:.85;margin-top:8px}
+#clk{position:absolute;right:max(3vw,10px);bottom:7vh;width:clamp(130px,17vw,190px);transform:rotate(-3deg)}
+#clk .top{display:flex;justify-content:space-between;padding:0 14px}#clk .top i{width:44%;height:18px;border-radius:50% 50% 0 0;background:linear-gradient(#e8d9a8,#a8913f);box-shadow:0 3px 3px rgba(0,0,0,.4)}
+#clk .face{background:linear-gradient(160deg,#4a4f58,#23262c);border-radius:18px 18px 10px 10px;padding:10px;box-shadow:inset 0 2px 2px rgba(255,255,255,.25),0 14px 20px rgba(0,0,0,.55),0 0 0 3px #b9a35a}
+#clk .scr{background:#10241b;border-radius:8px;padding:10px 6px;text-align:center;box-shadow:inset 0 3px 8px #000}
+#tm{display:block;color:#7dffb2;font-size:clamp(17px,2.4vw,26px);letter-spacing:.04em;text-shadow:0 0 8px #3cff91}
+#dt{display:block;color:#5fc88b;font-size:11px;margin-top:4px;font-family:'Nanum Gothic Coding',monospace}
+#clk .lg{display:flex;justify-content:space-between;padding:0 18px}#clk .lg i{width:12px;height:10px;background:#7a6422;border-radius:0 0 4px 4px}
+#st{position:fixed;inset:0;background:rgba(10,7,5,.8);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .5s;z-index:5}
+#st.on{display:flex}#st.vis{opacity:1}
+#bk{position:relative;width:min(96vw,1020px);height:min(84vh,660px);perspective:2400px;transform:scale(.45) translateY(60px) rotate(-3deg);transition:transform .75s cubic-bezier(.2,.85,.25,1)}
+#st.vis #bk{transform:none}
+#bk.en{--cc:linear-gradient(135deg,#4a7cbc,#27466f);font-family:'Special Elite','Nanum Gothic Coding',monospace}
+#bk.ma{--cc:linear-gradient(135deg,#46a085,#1d4f40);font-family:'Special Elite','Nanum Gothic Coding',monospace}
+#bk.sc{--cc:linear-gradient(135deg,#c4666b,#6a2a2f);font-family:'Nanum Pen Script',cursive;font-size:23px}
+.cv{position:absolute;inset:-12px;border-radius:12px;background:var(--cc);box-shadow:0 35px 80px rgba(0,0,0,.7),inset 0 0 0 2px rgba(255,255,255,.14)}
+.pgs{position:absolute;inset:0;display:flex}
+.pgs::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:36px;margin-left:-18px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.3),transparent);z-index:6;pointer-events:none}
+.pp{overflow:auto;padding:32px 36px}
+#L,#R{position:relative;flex:1}
+.pp.l{background:linear-gradient(90deg,#f3ecd8,#fcf8ec 10%,#fcf8ec 90%,#e4dac0);border-radius:6px 0 0 6px;box-shadow:inset 2px 0 0 #fff8}
+.pp.r{background:linear-gradient(90deg,#e4dac0,#fcf8ec 10%,#fcf8ec 90%,#f3ecd8);border-radius:0 6px 6px 0}
+.leaf{position:absolute;top:0;bottom:0;width:50%;transform-style:preserve-3d;z-index:4;pointer-events:none}
+.leaf.f{left:50%;transform-origin:left center;animation:ff var(--d,.8s) cubic-bezier(.45,.05,.25,1) forwards}
+.leaf.b{left:0;transform-origin:right center;animation:bb var(--d,.8s) cubic-bezier(.45,.05,.25,1) forwards}
+.leaf .pp{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.leaf .bk2{transform:rotateY(180deg)}
+@keyframes ff{0%{transform:rotateY(0) translateZ(0)}50%{transform:rotateY(-90deg) translateZ(30px)}100%{transform:rotateY(-180deg)}}
+@keyframes bb{0%{transform:rotateY(0)}50%{transform:rotateY(90deg) translateZ(30px)}100%{transform:rotateY(180deg)}}
+#x{position:absolute;top:-30px;right:-20px;z-index:8;width:38px;height:38px;border-radius:50%;border:0;background:#f6ead6;color:var(--ink);font-size:18px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.5)}
+.nv{position:absolute;bottom:14px;z-index:8;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(43,37,32,.5);background:rgba(255,255,255,.7);color:var(--ink);font-size:15px;cursor:pointer}
+#pv{left:20px}#nx{right:20px}.nv:hover{background:#fff}
+button:focus-visible{outline:3px solid #f2b84b;outline-offset:2px}
+.ttl{font-size:clamp(20px,3vw,27px);font-weight:700;margin-bottom:6px}
+.sub{font-size:13px;opacity:.65;margin-bottom:16px}
+#bk.sc .sub{font-size:19px}
+#intro{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,4vw,38px);font-weight:700;transition:all .9s cubic-bezier(.6,0,.3,1);pointer-events:none}
+#intro.up{inset:26px 0 auto;font-size:19px;height:30px;opacity:.7}
+.lst{margin-top:70px;line-height:2.1;font-size:15px}.lst b{color:var(--en)}
+.no{font-size:12px;opacity:.6;letter-spacing:.1em;text-transform:uppercase}
+.wd{font-size:clamp(32px,5vw,50px);font-weight:700;text-align:center;margin:44px 0 8px;animation:pop .6s both}
+@keyframes pop{from{opacity:0;transform:scale(.8)}}
+.pr{display:flex;gap:12px;justify-content:center;align-items:center;color:#555;margin-bottom:20px;flex-wrap:wrap}
+.snd{border:1.5px solid var(--en);color:var(--en);background:#fff;border-radius:20px;padding:5px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.snd:hover{background:var(--en);color:#fff}
+.ent{border-top:1.5px solid var(--ink);padding:14px 0;line-height:1.7}
+.ent b{color:var(--en)}.ex{border-left:3px solid var(--en);padding-left:12px;margin-top:8px;background:rgba(255,255,255,.6)}
+.toc button{display:flex;width:100%;justify-content:space-between;align-items:center;padding:16px 4px;border:0;border-bottom:1.5px solid var(--line);background:none;font-weight:700;font-size:clamp(17px,2.4vw,21px);cursor:pointer;color:var(--ink);text-align:left}
+.toc button:hover{background:rgba(120,100,60,.1)}
+.toc em{font-size:13px;opacity:.55;font-style:normal;font-weight:400}
+.back{border:0;background:none;color:inherit;font-weight:700;font-size:13px;cursor:pointer;opacity:.65;margin-bottom:12px;padding:0}
+.q{font-size:clamp(15px,1.9vw,18px);line-height:1.75;margin:8px 0}.qn{font-weight:700;font-size:1.3em;margin-right:4px}
+.fig{background:#fff;border:1.5px solid var(--line);border-radius:6px;display:block;margin:12px auto;max-width:100%}
+.opw{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;margin:14px 0}
+.op{background:none;border:0;border-bottom:1px dashed rgba(43,37,32,.3);text-align:left;padding:9px 4px;font-size:clamp(15px,1.8vw,18px);color:var(--ink);cursor:pointer}
+.op b{display:inline-block;width:1.7em;height:1.7em;line-height:1.55em;text-align:center;border:1.5px solid var(--ink);border-radius:50%;margin-right:10px;font-size:.85em}
+.op:hover{background:rgba(120,100,60,.12)}
+.op.ok{background:#dcf1df}.op.ok b{background:#2e7d45;border-color:#2e7d45;color:#fff}
+.op.no{background:#f9dcdc;text-decoration:line-through}.op.no b{background:#b53b3b;border-color:#b53b3b;color:#fff}
+.sol{display:none;margin-top:12px;padding:10px 14px;background:rgba(42,117,96,.1);border-left:4px solid var(--ma);line-height:1.7;font-size:14px}.sol.open{display:block}
+.big{font-size:70px;text-align:center;margin:40px 0}.big span{color:var(--ma)}
+.pp p{line-height:1.85;margin-bottom:12px}
+mark{background:linear-gradient(transparent 52%,var(--hl) 52% 92%,transparent 92%);color:inherit;padding:0 2px;border-radius:3px;transform:rotate(-.4deg)}
+.kw{margin-top:22px;padding:12px 14px;border:2px dashed rgba(154,64,70,.5);border-radius:10px;line-height:1.6}
+@media(max-width:720px){.pp{padding:18px 14px;font-size:13px}.opw{grid-template-columns:1fr}#bk.sc{font-size:19px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style></head><body>
+<div id="desk"><svg class="sta" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<g transform="rotate(-18 200 560)"><rect x="90" y="540" width="250" height="14" rx="3" fill="#f2c94c"/><polygon points="340,540 372,547 340,554" fill="#f0d9b5"/><polygon points="364,544.5 372,547 364,549.5" fill="#333"/><rect x="90" y="540" width="22" height="14" rx="3" fill="#d9777a"/></g>
+<g transform="rotate(12 760 600)"><rect x="620" y="590" width="240" height="13" rx="6" fill="#2b3a55"/><rect x="620" y="590" width="60" height="13" rx="6" fill="#c9ced8"/><rect x="858" y="594" width="14" height="5" fill="#222"/></g>
+<g transform="rotate(-6 880 140)"><rect x="740" y="120" width="260" height="34" rx="3" fill="#e9dfbf" stroke="#b9ab80"/><g stroke="#7a6c44" stroke-width="2"><path d="M770 120v14M800 120v10M830 120v14M860 120v10M890 120v14M920 120v10M950 120v14"/></g></g>
+<g transform="rotate(20 120 150)"><rect x="60" y="130" width="70" height="36" rx="6" fill="#f4f1ea"/><rect x="60" y="130" width="28" height="36" rx="6" fill="#4a90c2"/></g>
+<g transform="rotate(-30 450 650)"><rect x="380" y="640" width="150" height="12" rx="6" fill="#4caf7a"/><polygon points="530,640 552,646 530,652" fill="#f0d9b5"/></g>
+<circle cx="900" cy="470" r="22" fill="#d7d9de" stroke="#999"/><circle cx="900" cy="470" r="9" fill="#6a452f"/>
+</svg>
+<div id="clk" aria-label="탁상시계"><div class="top"><i></i><i></i></div><div class="face"><div class="scr"><b id="tm">--:--:--</b><span id="dt"></span></div></div><div class="lg"><i></i><i></i></div></div>
+<div id="shelf">
+<button class="bk" data-s="en" style="--c1:#2d5a94;--c2:#5b8cc9;--c3:#1d3e69" aria-label="영어책 열기"><span>영어<i>English</i></span></button>
+<button class="bk" data-s="ma" style="--c1:#2a7560;--c2:#55a98e;--c3:#1b4c3e" aria-label="수학책 열기"><span>수학<i>Math</i></span></button>
+<button class="bk" data-s="sc" style="--c1:#9a4046;--c2:#cc7075;--c3:#672b30" aria-label="과학책 열기"><span>과학<i>Science</i></span></button>
+</div></div>
+<div id="st"><div id="bk"><div class="cv"></div><div class="pgs"><div id="L" class="pp l"></div><div id="R" class="pp r"></div></div><button id="x" aria-label="책 덮기">✕</button><button id="pv" class="nv" aria-label="이전">◀</button><button id="nx" class="nv" aria-label="다음">▶</button></div></div>
+<script>
+const $=s=>document.querySelector(s),st=$('#st'),bk=$('#bk'),L=$('#L'),R=$('#R');
+const NAME={en:'영어',ma:'수학',sc:'과학'};
+let cur=null,page=null,P=[],k=0,busy=0,AC,score=0;
+const kst=()=>new Date(Date.now()+324e5),day=()=>Math.floor((Date.now()+324e5)/864e5),hour=()=>Math.floor(Date.now()/36e5);
+const ac=()=>AC=AC||new(window.AudioContext||window.webkitAudioContext)();
+function swish(){try{const c=ac(),n=c.sampleRate*.4|0,b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/n)**1.5;const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();f.type='bandpass';f.frequency.value=2200;g.gain.value=.3;s.buffer=b;s.connect(f).connect(g).connect(c.destination);s.start()}catch(e){}}
+function note(f,s,d,v,ty){const c=ac(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type=ty||'sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,t+s);g.gain.exponentialRampToValueAtTime(v,t+s+.02);g.gain.exponentialRampToValueAtTime(.001,t+s+d);o.connect(g).connect(c.destination);o.start(t+s);o.stop(t+s+d+.05)}
+function ding(){try{note(880,0,1.3,.25);note(1320,0,1.3,.12)}catch(e){}}
+function fan(){try{[[523,0,.14],[659,.14,.14],[784,.28,.14],[1047,.44,.8],[784,.44,.8],[659,.44,.8]].forEach(a=>note(a[0],a[1],a[2],.2,'triangle'))}catch(e){}}
+function speak(w){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+const sp=j=>[P[2*j],P[2*j+1]].map(p=>typeof p==='function'?p():p||'');
+function nav(){$('#pv').style.visibility=k>0?'visible':'hidden';$('#nx').style.visibility=(P[2*k+2]||P[2*k+3])?'visible':'hidden'}
+function show(){const a=sp(k);L.innerHTML=a[0];R.innerHTML=a[1];nav()}
+function store(){if(typeof P[2*k]!=='function')P[2*k]=L.innerHTML;if(typeof P[2*k+1]!=='function')P[2*k+1]=R.innerHTML}
+function turn(d){const j=k+d;if(busy||j<0||!(P[2*j]||P[2*j+1]))return;busy=1;store();const o=sp(k),n=sp(j),lf=document.createElement('div');lf.className='leaf '+(d>0?'f':'b');
+lf.innerHTML=d>0?`<div class="pp r">${o[1]}</div><div class="pp l bk2">${n[0]}</div>`:`<div class="pp l">${o[0]}</div><div class="pp r bk2">${n[1]}</div>`;
+if(d>0)R.innerHTML=n[1];else L.innerHTML=n[0];bk.appendChild(lf);swish();
+setTimeout(()=>{lf.remove();k=j;show();busy=0},820)}
+function riffle(n,rev,cb){busy=1;L.innerHTML=R.innerHTML='';$('#pv').style.visibility=$('#nx').style.visibility='hidden';
+for(let i=0;i<n;i++){const lf=document.createElement('div');lf.className='leaf '+(rev?'b':'f');lf.style.animationDelay=i*.1+'s';lf.style.setProperty('--d','.7s');lf.innerHTML=`<div class="pp ${rev?'l':'r'}"></div><div class="pp ${rev?'r':'l'} bk2"></div>`;bk.appendChild(lf);setTimeout(swish,i*100);setTimeout(()=>lf.remove(),i*100+720)}
+setTimeout(()=>{busy=0;cb()},n*100+740)}
+function open(s){cur=s;bk.className=s;L.innerHTML=R.innerHTML='';nav();$('#pv').style.visibility=$('#nx').style.visibility='hidden';st.classList.add('on');requestAnimationFrame(()=>requestAnimationFrame(()=>st.classList.add('vis')));
+setTimeout(()=>riffle(7,false,()=>s==='en'?english():toc(s)),850)}
+function close(){st.classList.remove('vis');setTimeout(()=>{st.classList.remove('on');L.innerHTML=R.innerHTML='';cur=null;busy=0},500)}
+document.querySelectorAll('.bk').forEach(b=>b.onclick=()=>open(b.dataset.s));
+addEventListener('keydown',e=>{if(!cur)return;if(e.key==='Escape')close();if(e.key==='ArrowRight')turn(1);if(e.key==='ArrowLeft')turn(-1)});
+bk.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+if(t.classList.contains('op'))answer(t);else if(t.dataset.t)go(t.dataset.t);else if(t.classList.contains('snd'))speak(t.dataset.w);else if(t.classList.contains('back')){if(!busy)toc(cur,true)}else if(t.id==='pv')turn(-1);else if(t.id==='nx')turn(1);else if(t.id==='x')close()});
+function answer(t){const sol=t.closest('.pp').querySelector('.sol');if(sol.classList.contains('open'))return;sol.classList.add('open');
+t.closest('.pp').querySelectorAll('.op').forEach(x=>{if(x.dataset.v==x.dataset.a)x.classList.add('ok')});
+if(t.dataset.v==t.dataset.a){score++;fan()}else t.classList.add('no')}
+
+const W=`ubiquitous|juːˈbɪkwɪtəs|형용사|어디에나 있는, 아주 흔한|Smartphones are ubiquitous these days.|요즘은 스마트폰이 어디에나 있다.
+reluctant|rɪˈlʌktənt|형용사|꺼리는, 마지못한|She was reluctant to speak in public.|그녀는 사람들 앞에서 말하기를 꺼렸다.
+diligent|ˈdɪlɪdʒənt|형용사|근면한, 성실한|He is a diligent student who never skips homework.|그는 숙제를 거르지 않는 성실한 학생이다.
+ambiguous|æmˈbɪɡjuəs|형용사|모호한, 애매한|The ending of the movie was ambiguous.|그 영화의 결말은 모호했다.
+inevitable|ɪnˈevɪtəbl|형용사|피할 수 없는, 필연적인|Change is inevitable in life.|삶에서 변화는 피할 수 없다.
+resilient|rɪˈzɪliənt|형용사|회복력 있는, 탄력 있는|Children are often more resilient than adults.|아이들은 어른보다 회복력이 강한 경우가 많다.
+scarce|skeərs|형용사|부족한, 드문|Fresh water is scarce in the desert.|사막에서는 깨끗한 물이 부족하다.
+vulnerable|ˈvʌlnərəbl|형용사|취약한, 상처받기 쉬운|Young plants are vulnerable to frost.|어린 식물은 서리에 취약하다.
+contemplate|ˈkɒntəmpleɪt|동사|곰곰이 생각하다|He contemplated his future by the window.|그는 창가에서 자신의 미래를 곰곰이 생각했다.
+abundant|əˈbʌndənt|형용사|풍부한, 많은|The island has abundant wildlife.|그 섬에는 야생 동물이 풍부하다.
+coherent|kəʊˈhɪərənt|형용사|일관성 있는, 논리 정연한|Write a coherent paragraph with a clear topic.|분명한 주제를 가진 논리 정연한 문단을 써라.
+thrive|θraɪv|동사|번창하다, 잘 자라다|Cactus plants thrive in dry places.|선인장은 건조한 곳에서 잘 자란다.`.split('\n').map(l=>l.split('|'));
+
+
+function english(){const b=day()*3,w=[0,1,2].map(i=>W[(b+i)%W.length]),d=kst();
+const wp=(x,i)=>`<div class="no">오늘의 영단어 ${i+1} / 3</div><div class="wd">${x[0]}</div><div class="pr"><span>/${x[1]}/</span><button class="snd" data-w="${x[0]}">🔊 발음 듣기</button></div><div class="ent"><b>${x[2]}</b> ${x[3]}<div class="ex">${x[4]}<br><small>${x[5]}</small></div></div>`;
+P=['<div id="intro">오늘의 영단어</div>',wp(w[0],0),wp(w[1],1),wp(w[2],2)];k=0;busy=1;L.innerHTML=P[0];R.innerHTML='';nav();
+setTimeout(()=>{const i=$('#intro');i&&i.classList.add('up')},900);
+setTimeout(()=>{if(cur!=='en')return;ding();L.insertAdjacentHTML('beforeend',`<div class="lst">${d.getUTCFullYear()}.${d.getUTCMonth()+1}.${d.getUTCDate()}<br>${w.map((x,i)=>`${i+1}. <b>${x[0]}</b>`).join('<br>')}</div>`);P[0]=L.innerHTML;R.innerHTML=P[1];busy=0;nav()},1900)}
+const TOPICS={ma:[['tri','삼각비','sin·cos·tan 문제'],['cir','원주각','원주각과 중심각 문제'],['sta','통계','평균·분산·표준편차 문제']],sc:[['phy','물리학','힘과 에너지의 발견'],['bio','생물학','생명의 비밀'],['che','화학','물질의 구성'],['ast','천문학','우주를 읽다']]};
+function toc(s,a){page='toc';P=[`<div class="ttl">${NAME[s]} 목차</div><div class="sub">공부할 단원을 골라보세요</div><div class="toc">${TOPICS[s].map(t=>`<button data-t="${t[0]}">${t[1]}<em>${t[2]}</em></button>`).join('')}</div>`,`<div class="sub" style="margin-top:40px">${s==='ma'?'한 단원마다 하루 3문제 · 매시 정각에 새 문제로 바뀝니다':'매일 새로운 발견 이야기가 펼쳐집니다'}</div>`];k=0;a?riffle(5,false,show):show()}
+function go(t){if(busy)return;page=t;riffle(5,true,()=>cur==='ma'?math(t):sci(t))}
+
+/* MATH */
+function rng(seed){let a=seed*2654435761%4294967296;return()=>(a=(a*1664525+1013904223)%4294967296)/4294967296}
+function opts(ok,alts,R){const set=[ok];for(const a of alts){if(!set.includes(a))set.push(a);if(set.length>3)break}let k=1;while(set.length<4){const v=ok+(R()<.5?-1:1)*k++;if(!set.includes(v)&&v>0)set.push(v)}
+for(let i=3;i>0;i--){const j=Math.floor(R()*(i+1));[set[i],set[j]]=[set[j],set[i]]}return set}
+function mathQ(t,j){const R=rng(hour()*7+t.charCodeAt(0)+t.charCodeAt(1)+j*977);
+if(t==='tri'){const T=[[3,4,5],[5,12,13],[8,15,17],[6,8,10],[7,24,25],[9,12,15]],[a,b,c]=T[Math.floor(R()*T.length)],k=['sin','cos','tan'][Math.floor(R()*3)];
+const v={sin:[b,c],cos:[a,c],tan:[b,a]},all=[[b,c,'sin'],[a,c,'cos'],[b,a,'tan'],[a,c,'sin'],[a,b,'tan'],[b,c,'cos']].map(x=>x[0]+'/'+x[1]),ok=v[k].join('/');
+const o=[ok,...all.filter(x=>x!==ok)].slice(0,4).sort(()=>R()-.5),s=130/Math.max(a,b);
+const B=[40+a*s,160],A=[40,160-b*s];
+const fig=`<svg class="fig" viewBox="0 0 280 190" width="300"><path d="M40 160H${B[0]}L40 ${A[1]}Z" fill="#eaf3ef" stroke="#2a2622" stroke-width="2"/><path d="M40 148h12v12" fill="none" stroke="#2a2622"/><g font-size="14" font-family="monospace"><text x="26" y="${A[1]-6}">A</text><text x="24" y="176">C</text><text x="${B[0]+6}" y="164">B</text><text x="${40+a*s/2-6}" y="180">${a}</text><text x="14" y="${160-b*s/2}">${b}</text><text x="${40+a*s/2+8}" y="${160-b*s/2-4}">${c}</text></g></svg>`;
+const def={sin:'sin B = 높이/빗변 = AC/AB',cos:'cos B = 밑변/빗변 = BC/AB',tan:'tan B = 높이/밑변 = AC/BC'};
+return{q:`그림의 직각삼각형 ABC에서 ∠C=90°, AB=${c}, BC=${a}, CA=${b}일 때, ${k} B의 값은?`,fig,o,a:ok,e:`${def[k]} = ${v[k][0]}/${v[k][1]}. 따라서 정답은 ${ok}입니다.`}}
+if(t==='cir'){const k=[20,25,30,35,40,50,55,65][Math.floor(R()*8)],ty=R()<.5,t1=Math.floor(R()*360);
+const P=d=>[110+80*Math.cos(d*Math.PI/180),100+80*Math.sin(d*Math.PI/180)],A=P(t1),B=P(t1+2*k),C=P(t1+180+k);
+const fig=`<svg class="fig" viewBox="0 0 220 200" width="260"><circle cx="110" cy="100" r="80" fill="#eaf3ef" stroke="#2a2622" stroke-width="2"/><g stroke="#2a2622" stroke-width="1.8" fill="none"><path d="M${A}L${C}L${B}"/><path d="M${A}L110 100L${B}" stroke="#8c3d3d" stroke-dasharray="5 4"/></g><circle cx="110" cy="100" r="3" fill="#8c3d3d"/><g font-size="14" font-family="monospace"><text x="${A[0]+(A[0]>110?6:-16)}" y="${A[1]+(A[1]>100?14:-4)}">A</text><text x="${B[0]+(B[0]>110?6:-16)}" y="${B[1]+(B[1]>100?14:-4)}">B</text><text x="${C[0]+(C[0]>110?6:-16)}" y="${C[1]+(C[1]>100?14:-4)}">C</text><text x="114" y="96">O</text></g></svg>`;
+const ok=ty?k:2*k,al=[ok*2,ok/2,180-ok,90-(ok>45?45:0)].map(Math.round);
+return{q:ty?`점 O는 원의 중심이다. 그림에서 ∠ACB = ${k}°일 때, 중심각 ∠AOB의 크기는?`:`점 O는 원의 중심이다. 그림에서 ∠AOB = ${2*k}°일 때, 원주각 ∠ACB의 크기는?`,fig,o:opts(ty?2*k:k,al.map(x=>x),R).map(x=>x+'°'),a:(ty?2*k:k)+'°',e:`한 호에 대한 중심각의 크기는 원주각의 2배입니다. ${ty?`∠AOB = 2×${k}° = ${2*k}°`:`∠ACB = ${2*k}° ÷ 2 = ${k}°`}.`}}
+let d,m,n,x,S;for(let i=0;i<500;i++){n=5+Math.floor(R()*2);d=Array.from({length:n},()=>2+Math.floor(R()*14));m=d.reduce((a,b)=>a+b)/n;const v=d.reduce((a,b)=>a+(b-m)**2,0)/n;if(Number.isInteger(m)&&Number.isInteger(v)&&v>0&&Number.isInteger(Math.sqrt(v))&&new Set(d).size<n)break}
+const v=d.reduce((a,b)=>a+(b-m)**2,0)/n,s=[...d].sort((a,b)=>a-b),cnt={};d.forEach(x=>cnt[x]=(cnt[x]||0)+1);const mx=Math.max(...Object.values(cnt)),modes=Object.keys(cnt).filter(k=>cnt[k]===mx);
+const kinds=[['평균',m,`(자료의 합)÷${n} = ${d.reduce((a,b)=>a+b)}÷${n} = ${m}`],['분산',v,`편차의 제곱의 평균: ${d.map(x=>`(${x-m})²`).join('+')} = ${v*n}, ${v*n}÷${n} = ${v}`],['표준편차',Math.sqrt(v),`분산이 ${v}이므로 표준편차 = √${v} = ${Math.sqrt(v)}`]];
+if(modes.length===1)kinds.push(['최빈값',+modes[0],`가장 많이 나온 값은 ${modes[0]} (${mx}번)`]);
+if(n%2)kinds.push(['중앙값',s[(n-1)/2],`크기순 ${s.join(', ')}의 가운데 값 = ${s[(n-1)/2]}`]);
+const K=kinds[Math.floor(R()*kinds.length)];
+return{q:`다음 자료의 ${K[0]}은(는)?<br><b>${d.join(', ')}</b>`,fig:'',o:opts(K[1],[K[1]+1,K[1]-1,K[1]+2,K[1]*2],R),a:K[1],e:K[2]+`. 정답: ${K[1]}`}}
+
+
+function math(t){score=0;const nm=TOPICS.ma.find(x=>x[0]===t)[1],qs=[];let j=0;for(let i=0;i<3;i++){let q;do q=mathQ(t,j++);while(qs.some(x=>x.q===q.q)&&j<40);qs.push(q)}
+P=qs.map((Q,i)=>`<button class="back">← 목차</button><div class="sub">${nm} · 문제 ${i+1} / 3</div><div class="q"><span class="qn">${i+1}.</span> ${Q.q}</div>${Q.fig}<div class="opw">${Q.o.map((x,n)=>`<button class="op" data-v="${x}" data-a="${Q.a}"><b>${n+1}</b>${x}</button>`).join('')}</div><div class="sol"><b>정답: ${Q.a}</b><br>${Q.e}</div>`);
+P.push(()=>`<div class="ttl">오늘의 결과</div><div class="big"><span>${score}</span> / 3</div><div class="sub">매시 정각에 새 문제로 바뀌어요</div><button class="back">← 목차로</button>`);k=0;show()}
+
+const SCI={phy:[['뉴턴의 만유인력','1687년 뉴턴은 『프린키피아』에서 모든 물체가 서로 끌어당긴다는 만유인력의 법칙을 발표했습니다. 사과를 땅으로 떨어뜨리는 힘과 달이 지구 둘레를 도는 힘이 같은 힘이라는 생각이었죠. 두 물체 사이의 힘은 질량의 곱에 비례하고 거리의 제곱에 반비례합니다.','<circle cx="100" cy="45" r="16" fill="#4a86c5"/><ellipse cx="100" cy="45" rx="80" ry="30" fill="none" stroke="#8a8a8a" stroke-dasharray="4 4"/><circle cx="178" cy="45" r="6" fill="#e0b84a"/>'],['패러데이의 전자기 유도','1831년 패러데이는 코일 근처에서 자석을 움직이면 코일에 전류가 흐른다는 사실을 발견했습니다. 자기장이 변할 때 전기가 만들어진다는 이 원리는 오늘날 발전소의 발전기와 변압기의 바탕이 되었습니다.','<rect x="70" y="30" width="30" height="30" fill="#c0392b"/><rect x="100" y="30" width="30" height="30" fill="#2f4d7a"/><path d="M140 45c10-18 20 18 30 0s20 18 30 0" fill="none" stroke="#e0b84a" stroke-width="3"/>'],['갈릴레이의 낙하 실험','갈릴레이는 무거운 물체가 더 빨리 떨어진다는 아리스토텔레스의 생각을 실험으로 반박했습니다. 공기 저항이 없다면 무게와 상관없이 모든 물체가 같은 가속도로 떨어진다는 것을 보였고, 근대 물리학의 길을 열었습니다.','<path d="M20 78H180L70 70" fill="none" stroke="#8a6a3a" stroke-width="4"/><circle cx="60" cy="22" r="8" fill="#c0392b"/><circle cx="60" cy="52" r="8" fill="#c0392b" opacity=".4"/><circle cx="130" cy="30" r="12" fill="#2f4d7a"/>']],
+bio:[['멘델의 유전 법칙','19세기 중반 멘델은 완두콩을 키우며 모양과 색이 어떻게 자손에게 전해지는지 조사했습니다. 우성과 열성 형질이 일정한 비율로 나타난다는 것을 알아냈고, 이것이 유전 연구의 출발점이 되었습니다. 잡종 2세대에서 우성과 열성은 약 3:1로 나타납니다.','<circle cx="60" cy="45" r="20" fill="#7cb342"/><circle cx="105" cy="45" r="20" fill="#7cb342"/><circle cx="150" cy="45" r="20" fill="#f2c94c"/>'],['파스퇴르의 백조목 실험','파스퇴르는 목이 길게 휘어진 플라스크에 고기 국물을 넣고 끓인 뒤 오래 두어도 썩지 않음을 보였습니다. 생물이 저절로 생긴다는 자연발생설이 틀렸고, 미생물은 공기 중의 미생물에서 온다는 것을 증명했습니다.','<path d="M85 80c-20 0-20-35 0-35h20c20 0 25-20 40-20" fill="none" stroke="#2f4d7a" stroke-width="4"/><path d="M70 80h50" stroke="#2f4d7a" stroke-width="4"/>'],['왓슨과 크릭의 DNA 구조','1953년 왓슨과 크릭은 DNA가 두 가닥이 꼬인 이중 나선 구조라는 것을 밝혔습니다. 두 가닥은 염기가 짝을 이루어 연결되어 있어 유전 정보를 정확히 복제할 수 있습니다.','<path d="M60 10c40 20 40 50 80 70M140 10c-40 20-40 50-80 70" fill="none" stroke="#2d6a57" stroke-width="3"/><path d="M80 25h40M82 45h36M85 65h30" stroke="#8c3d3d" stroke-width="2"/>']],
+che:[['멘델레예프의 주기율표','1869년 멘델레예프는 원소를 원자량 순으로 늘어놓으면 비슷한 성질이 주기적으로 반복된다는 것을 발견했습니다. 그는 아직 발견되지 않은 원소 자리를 비워 두고 성질을 예측했는데, 훗날 실제로 발견되어 큰 주목을 받았습니다.','<g fill="#cfe3dc" stroke="#2d6a57"><rect x="30" y="15" width="22" height="22"/><rect x="52" y="15" width="22" height="22"/><rect x="74" y="15" width="22" height="22" fill="#f2c94c"/><rect x="96" y="15" width="22" height="22"/><rect x="118" y="15" width="22" height="22"/><rect x="140" y="15" width="22" height="22"/><rect x="30" y="37" width="22" height="22"/><rect x="52" y="37" width="22" height="22"/><rect x="74" y="37" width="22" height="22"/><rect x="96" y="37" width="22" height="22"/></g>'],['돌턴의 원자설','1803년 돌턴은 모든 물질이 더 쪼갤 수 없는 작은 입자인 원자로 이루어져 있고, 같은 원소의 원자는 크기와 질량이 같다고 주장했습니다. 화합물은 원자들이 일정한 비율로 결합해 만들어집니다.','<circle cx="70" cy="45" r="18" fill="#2f4d7a"/><circle cx="105" cy="45" r="12" fill="#c0392b"/><circle cx="130" cy="45" r="12" fill="#c0392b"/>'],['라부아지에의 질량 보존','라부아지에는 밀폐된 용기에서 물질을 태우는 실험으로, 화학 반응 전후에 전체 질량이 변하지 않는다는 것을 확인했습니다. 이 질량 보존의 법칙은 현대 화학의 기초가 되었습니다.','<path d="M30 70h60M110 70h60M100 30h0" stroke="#2a2622" stroke-width="3"/><rect x="30" y="50" width="60" height="20" fill="#8c3d3d" opacity=".6"/><rect x="110" y="50" width="60" height="20" fill="#2d6a57" opacity=".6"/><path d="M92 38h16" stroke="#2a2622" stroke-width="3"/>']],
+ast:[['허블의 우주 팽창','1929년 허블은 멀리 있는 은하일수록 더 빠르게 우리로부터 멀어진다는 것을 관측으로 보였습니다. 이는 우주가 팽창하고 있다는 증거이며, 오늘날 빅뱅 이론의 바탕이 되었습니다.','<circle cx="100" cy="45" r="5" fill="#f2c94c"/><circle cx="70" cy="30" r="3" fill="#2f4d7a"/><circle cx="140" cy="60" r="3" fill="#2f4d7a"/><circle cx="50" cy="65" r="3" fill="#2f4d7a"/><path d="M100 45L170 20M100 45L170 70" stroke="#8c3d3d" stroke-width="2"/>'],['코페르니쿠스의 지동설','1543년 코페르니쿠스는 우주의 중심이 지구가 아니라 태양이며 지구를 포함한 행성이 태양 주위를 돈다는 지동설을 발표했습니다. 이는 과학 혁명의 출발점이 되었습니다.','<circle cx="100" cy="45" r="14" fill="#f2c94c"/><ellipse cx="100" cy="45" rx="45" ry="24" fill="none" stroke="#999"/><ellipse cx="100" cy="45" rx="80" ry="34" fill="none" stroke="#999"/><circle cx="145" cy="45" r="5" fill="#2f4d7a"/>'],['케플러의 행성 운동 법칙','케플러는 행성이 원이 아니라 타원 궤도로 태양 주위를 돈다는 것을 밝혔습니다. 또 태양에 가까울수록 행성이 더 빠르게 움직인다는 것도 알아냈습니다.','<ellipse cx="100" cy="45" rx="85" ry="32" fill="none" stroke="#2f4d7a" stroke-width="2"/><circle cx="62" cy="45" r="9" fill="#f2c94c"/><circle cx="180" cy="46" r="5" fill="#8c3d3d"/>']]};
+
+
+function sci(t){const Ls=SCI[t],ix=(day()+Object.keys(SCI).indexOf(t))%Ls.length,e=Ls[ix],x=(EXT[t][ix]||'|').split('|'),nm=TOPICS.sc.find(y=>y[0]===t)[1],terms=x[0].split(',').filter(Boolean);
+let tx=e[1]+' '+(x[1]||'');terms.forEach(w=>tx=tx.split(w).join('<mark>'+w+'</mark>'));
+const ss=tx.split(/(?<=\.)\s/),m=Math.max(1,Math.floor(ss.length/2));
+P=[`<button class="back">← 목차</button><div class="sub">${nm}</div><div class="ttl">${e[0]}</div><svg class="fig" viewBox="0 0 200 90" width="300" role="img" aria-label="${e[0]}">${e[2]}</svg><p>${ss.slice(0,m).join(' ')}</p>`,`<p>${ss.slice(m).join(' ')}</p><div class="kw">✎ 핵심 단어<br>${terms.join(' · ')}</div>`];k=0;show()}
+
+/* MORE CONTENT */
+`abandon|əˈbændən|동사|버리다, 포기하다|He had to abandon the plan.|그는 계획을 포기해야 했다.
+accumulate|əˈkjuːmjəleɪt|동사|모으다, 쌓이다|Dust accumulated on the shelf.|선반에 먼지가 쌓였다.
+adequate|ˈædɪkwət|형용사|충분한, 적절한|Do we have adequate food?|음식이 충분한가요?
+anticipate|ænˈtɪsɪpeɪt|동사|예상하다, 기대하다|We anticipate heavy rain tomorrow.|내일 폭우가 올 것으로 예상한다.
+benefit|ˈbenɪfɪt|명사|이익, 혜택|Exercise has many benefits.|운동은 많은 이점이 있다.
+capable|ˈkeɪpəbl|형용사|능력 있는, ~할 수 있는|She is capable of solving it.|그녀는 그것을 풀 수 있다.
+consequence|ˈkɒnsɪkwəns|명사|결과, 영향|Every choice has a consequence.|모든 선택에는 결과가 따른다.
+demonstrate|ˈdemənstreɪt|동사|보여주다, 증명하다|The teacher demonstrated the experiment.|선생님이 실험을 시범 보였다.
+distinguish|dɪˈstɪŋɡwɪʃ|동사|구별하다|Can you distinguish the twins?|쌍둥이를 구별할 수 있니?
+efficient|ɪˈfɪʃnt|형용사|효율적인|LED lights are energy efficient.|LED 전등은 에너지 효율이 좋다.
+eliminate|ɪˈlɪmɪneɪt|동사|제거하다|We must eliminate waste.|우리는 낭비를 없애야 한다.
+emerge|ɪˈmɜːdʒ|동사|나타나다|A rainbow emerged after the rain.|비 온 뒤 무지개가 나타났다.
+essential|ɪˈsenʃl|형용사|필수적인|Water is essential for life.|물은 생명에 필수적이다.
+evidence|ˈevɪdəns|명사|증거|There is no evidence yet.|아직 증거가 없다.
+flexible|ˈfleksəbl|형용사|유연한|Be flexible about the schedule.|일정에 융통성을 가져라.
+fundamental|ˌfʌndəˈmentl|형용사|근본적인|Reading is a fundamental skill.|독서는 기본적인 능력이다.
+genuine|ˈdʒenjuɪn|형용사|진짜의, 진심의|She showed genuine interest.|그녀는 진심 어린 관심을 보였다.
+hesitate|ˈhezɪteɪt|동사|망설이다|Don't hesitate to ask.|망설이지 말고 물어봐.
+illustrate|ˈɪləstreɪt|동사|설명하다, 삽화를 넣다|The graph illustrates the trend.|그래프가 추세를 보여준다.
+impose|ɪmˈpəʊz|동사|부과하다, 강요하다|Don't impose your opinion on others.|네 의견을 남에게 강요하지 마라.
+indicate|ˈɪndɪkeɪt|동사|나타내다, 가리키다|The sign indicates the exit.|표지판이 출구를 가리킨다.
+inhabit|ɪnˈhæbɪt|동사|~에 살다|Penguins inhabit cold regions.|펭귄은 추운 지역에 산다.
+maintain|meɪnˈteɪn|동사|유지하다|Maintain a healthy diet.|건강한 식단을 유지하라.
+moderate|ˈmɒdərət|형용사|적당한, 보통의|Moderate exercise is good for you.|적당한 운동은 몸에 좋다.
+obstacle|ˈɒbstəkl|명사|장애물|Fear is the biggest obstacle.|두려움이 가장 큰 장애물이다.
+participate|pɑːˈtɪsɪpeɪt|동사|참여하다|Many students participate in the contest.|많은 학생이 대회에 참가한다.
+perceive|pəˈsiːv|동사|인식하다, 알아차리다|Dogs perceive sounds we cannot.|개는 우리가 못 듣는 소리를 인지한다.
+persuade|pəˈsweɪd|동사|설득하다|I persuaded him to join us.|나는 그가 함께하도록 설득했다.
+phenomenon|fəˈnɒmɪnən|명사|현상|An eclipse is a natural phenomenon.|일식은 자연 현상이다.
+precise|prɪˈsaɪs|형용사|정확한|Give me the precise time.|정확한 시간을 알려줘.
+reinforce|ˌriːɪnˈfɔːs|동사|강화하다|Practice reinforces memory.|연습은 기억을 강화한다.
+sufficient|səˈfɪʃnt|형용사|충분한|Eight hours of sleep is sufficient.|8시간 수면이면 충분하다.
+sustain|səˈsteɪn|동사|지속하다, 유지하다|Trees sustain wildlife.|나무는 야생 동물을 살게 한다.
+tolerate|ˈtɒləreɪt|동사|참다, 용인하다|I can't tolerate the noise.|나는 그 소음을 참을 수 없다.
+transform|trænsˈfɔːm|동사|변화시키다|Caterpillars transform into butterflies.|애벌레는 나비로 변한다.
+unique|juˈniːk|형용사|독특한|Every snowflake is unique.|눈송이는 모두 독특하다.
+yield|jiːld|동사|산출하다, 양보하다|The farm yields lots of rice.|그 농장은 쌀을 많이 생산한다.
+campaign|kæmˈpeɪn|명사|캠페인, 운동|The campaign helped save the forest.|그 캠페인은 숲을 지키는 데 도움이 되었다.
+vivid|ˈvɪvɪd|형용사|생생한, 선명한|She has a vivid imagination.|그녀는 상상력이 생생하다.
+sphere|sfɪər|명사|구, 영역|The Earth is nearly a sphere.|지구는 거의 구 모양이다.`.split('\n').forEach(l=>W.push(l.split('|')));
+const M={atom:'<circle cx="100" cy="45" r="8" fill="#c0392b"/><g fill="none" stroke="#2f4d7a" stroke-width="2"><ellipse cx="100" cy="45" rx="55" ry="18"/><ellipse cx="100" cy="45" rx="55" ry="18" transform="rotate(60 100 45)"/><ellipse cx="100" cy="45" rx="55" ry="18" transform="rotate(120 100 45)"/></g>',
+flask:'<path d="M90 12h20v25l30 40H60l30-40Z" fill="#cfe3f5" stroke="#2f4d7a" stroke-width="2"/><path d="M72 62h56l10 15H62Z" fill="#2d6a57" opacity=".6"/>',
+lens:'<path d="M100 10Q125 45 100 80Q75 45 100 10Z" fill="#cfe3f5" stroke="#2f4d7a" stroke-width="2"/><path d="M20 45H78M122 45L180 20M122 45L180 70" stroke="#e0b84a" stroke-width="2"/>',
+wave:'<path d="M10 45q20-40 40 0t40 0 40 0 40 0 20 0" fill="none" stroke="#2f4d7a" stroke-width="3"/>',
+cell:'<ellipse cx="100" cy="45" rx="70" ry="36" fill="#d7ecd0" stroke="#2d6a57" stroke-width="2"/><circle cx="100" cy="45" r="14" fill="#2d6a57"/><circle cx="145" cy="40" r="5" fill="#8c3d3d"/>',
+bact:'<rect x="50" y="35" width="50" height="20" rx="10" fill="#7cb342"/><rect x="110" y="25" width="40" height="18" rx="9" fill="#7cb342"/><rect x="95" y="62" width="40" height="16" rx="8" fill="#7cb342"/>',
+fire:'<path d="M100 10C130 40 135 60 100 80 65 60 70 40 100 10Z" fill="#e8883a"/><path d="M100 40C112 55 112 66 100 74 88 66 88 55 100 40Z" fill="#f2c94c"/>',
+star:'<path d="M100 8L112 38 144 40 120 60 128 84 100 68 72 84 80 60 56 40 88 38Z" fill="#f2c94c"/>',
+bh:'<circle cx="100" cy="45" r="16" fill="#222"/><ellipse cx="100" cy="45" rx="60" ry="14" fill="none" stroke="#e8883a" stroke-width="3"/>',
+tele:'<path d="M40 70L140 25" stroke="#2f4d7a" stroke-width="12" stroke-linecap="round"/><path d="M70 62L50 85M85 55L110 85" stroke="#555" stroke-width="3"/>',
+comet:'<circle cx="150" cy="35" r="9" fill="#cfe3f5"/><path d="M142 38L30 70M143 33L40 40" stroke="#9fb8d6" stroke-width="3"/>',
+bulb:'<circle cx="100" cy="38" r="24" fill="#f6e08a" stroke="#c9a227" stroke-width="2"/><rect x="88" y="62" width="24" height="14" fill="#999"/>',
+magnet:'<path d="M60 70V35a40 40 0 0 1 80 0v35" fill="none" stroke="#c0392b" stroke-width="14"/><path d="M53 70h14M133 70h14" stroke="#ddd" stroke-width="14"/>',
+syr:'<rect x="60" y="35" width="70" height="20" fill="#fff" stroke="#2f4d7a" stroke-width="2"/><path d="M130 45h40M60 45H40M40 35v20" stroke="#2f4d7a" stroke-width="3"/>',
+tree:'<rect x="95" y="50" width="10" height="30" fill="#8a6a3a"/><circle cx="100" cy="35" r="24" fill="#7cb342"/>',
+globe:'<circle cx="100" cy="45" r="34" fill="#4a86c5"/><path d="M80 35q15-12 25 0t-10 18-15-18Z" fill="#7cb342"/>',
+bell:'<path d="M70 65Q70 20 100 20T130 65Z" fill="#e0b84a"/><circle cx="100" cy="72" r="6" fill="#8a6a3a"/>',
+fall:SCI.phy[2][2],coil:SCI.phy[1][2]};
+const ADD={phy:`뉴턴의 운동 법칙|fall|물체에 힘이 작용하지 않으면 정지나 등속 운동을 계속하고(관성), 힘이 클수록 가속도가 커지며(F=ma), 힘은 항상 작용과 반작용의 짝으로 나타납니다.
+아르키메데스의 부력|wave|물에 잠긴 물체는 밀어낸 물의 무게만큼 위로 뜨는 힘을 받습니다. 목욕탕에서 이 원리를 떠올렸다는 이야기로 유명해요.
+뉴턴의 빛 분산|lens|1666년경 뉴턴은 프리즘으로 햇빛이 여러 색으로 갈라진다는 것을 보였고, 흰 빛이 여러 색의 빛이 섞인 것임을 밝혔습니다.
+에디슨의 전구|bulb|1879년 에디슨은 탄화시킨 필라멘트로 오래 켜지는 백열전구를 실용화해 밤의 생활을 바꿨습니다.
+외르스테드의 전류 자기 작용|magnet|1820년 외르스테드는 전류가 흐르는 도선 옆의 나침반 바늘이 움직이는 것을 보고 전기가 자기장을 만든다는 것을 발견했습니다.
+옴의 법칙|coil|도선에 흐르는 전류는 전압에 비례하고 저항에 반비례합니다. V=IR 이라는 식이 회로 공부의 출발점입니다.
+아인슈타인의 상대성 이론|bh|20세기 초 아인슈타인은 시간과 공간이 관찰자의 운동과 중력에 따라 달라질 수 있음을 설명했습니다. E=mc²도 여기서 나왔습니다.
+뢴트겐의 X선|wave|1895년 뢴트겐은 물체를 투과하는 정체불명의 광선을 발견하고 X선이라 불렀습니다. 몸속을 보는 의료 영상의 시작이었습니다.`,
+bio:`훅의 세포 발견|cell|1665년 훅은 현미경으로 코르크를 관찰하다 벌집 같은 작은 방들을 보고 '세포'라는 이름을 붙였습니다.
+레벤후크의 미생물 관찰|bact|레벤후크는 직접 만든 렌즈로 물 한 방울 속에서 살아 움직이는 미생물을 처음 관찰했습니다.
+다윈의 자연선택|tree|다윈은 갈라파고스 등지의 생물을 관찰해, 환경에 잘 맞는 개체가 더 많이 살아남아 자손을 남기며 생물이 진화한다고 설명했습니다.
+제너의 종두법|syr|1796년 제너는 우두에 걸린 사람은 천연두에 잘 걸리지 않는다는 점에서 백신의 원리를 확립했습니다.
+플레밍의 페니실린|bact|1928년 플레밍은 푸른곰팡이 주변에서 세균이 자라지 못하는 것을 보고 최초의 항생제인 페니실린을 발견했습니다.
+세포설의 확립|cell|1830년대 슐라이덴과 슈반 등이 모든 생물은 세포로 이루어져 있고 세포가 생물의 기본 단위라는 세포설을 세웠습니다.
+파블로프의 조건 반사|bell|파블로프는 종소리와 먹이를 함께 주는 훈련을 반복하자 개가 종소리만 들어도 침을 흘리는 것을 관찰해 조건 반사를 밝혔습니다.
+인겐하우스의 광합성 연구|tree|1779년 인겐하우스는 식물의 초록색 부분이 햇빛을 받을 때만 공기를 바꾼다는 것을 보여 광합성 연구의 문을 열었습니다.`,
+che:`보일의 법칙|syr|1662년 보일은 온도가 일정할 때 기체의 부피가 압력에 반비례한다는 것을 밝혔습니다.
+캐번디시의 수소 발견|fire|1766년 캐번디시는 금속에 산을 부었을 때 나오는 가연성 기체를 모아 수소를 발견했습니다.
+프리스틀리의 산소 발견|fire|1774년 프리스틀리는 산화수은을 가열해 물질을 잘 타게 하는 기체를 얻었고, 이 기체는 훗날 산소라 불렸습니다.
+아보가드로의 분자설|atom|아보가드로는 같은 온도와 압력에서 같은 부피의 기체에는 같은 수의 분자가 들어 있다고 제안했습니다.
+퀴리 부부의 방사성 원소 연구|star|마리 퀴리와 피에르 퀴리는 폴로늄과 라듐을 발견하고 방사능 연구를 이끌었습니다. 마리는 노벨상을 두 번 받았습니다.
+러더퍼드의 원자핵 발견|atom|1911년 러더퍼드는 알파 입자 산란 실험으로 원자 중심에 작고 단단한 핵이 있음을 밝혔습니다.
+아레니우스의 산과 염기|flask|아레니우스는 물에 녹아 수소 이온을 내는 물질을 산, 수산화 이온을 내는 물질을 염기로 정의했습니다.
+하버의 암모니아 합성|globe|1909년 하버는 공기 중의 질소로 암모니아를 합성하는 방법을 개발해 비료 생산을 크게 늘렸습니다.`,
+ast:`갈릴레이의 망원경 관측|tele|1609년 갈릴레이는 망원경으로 목성의 위성, 달의 크레이터, 금성의 위상 변화를 관측해 지동설을 뒷받침했습니다.
+뉴턴의 반사 망원경|tele|1668년 뉴턴은 렌즈 대신 거울을 쓰는 반사 망원경을 만들어 색 번짐 문제를 줄였습니다.
+핼리 혜성의 예측|comet|핼리는 1531, 1607, 1682년의 혜성이 같은 천체라고 보고 1758년 재출현을 예측했습니다. 그 혜성에 그의 이름이 붙었습니다.
+리빗의 세페이드 변광성|star|1912년 리빗은 세페이드 변광성의 밝기 변화 주기로 실제 밝기를 알 수 있음을 발견해 먼 은하까지 거리를 재는 기준을 만들었습니다.
+우주 배경 복사의 발견|wave|1965년 펜지어스와 윌슨은 우주 모든 방향에서 오는 약한 전파를 발견했고, 이는 빅뱅의 흔적으로 확인되었습니다.
+블랙홀의 발견|bh|빛조차 빠져나오지 못하는 블랙홀은 일반 상대성 이론의 해에서 처음 예측되었고, 2019년에는 실제 블랙홀 그림자가 촬영되었습니다.
+티코 브라헤의 정밀 관측|star|티코 브라헤는 망원경 없이 수십 년간 행성 위치를 정밀하게 기록했고, 이 자료가 케플러 법칙의 바탕이 되었습니다.
+에라토스테네스의 지구 둘레 측정|globe|기원전 3세기 에라토스테네스는 두 도시에서 잰 그림자 각도의 차이로 지구 둘레를 놀랄 만큼 정확히 계산했습니다.`};
+for(const f in ADD)ADD[f].split('\n').forEach(l=>{const p=l.split('|');SCI[f].push([p[0],p[2],M[p[1]]])});
+
+
+const EXT={phy:`만유인력,질량의 곱|뉴턴 덕분에 사람들은 밀물과 썰물, 행성의 궤도, 인공위성의 움직임을 모두 같은 식으로 계산할 수 있게 되었습니다. 지금도 우주선의 경로를 짤 때 이 원리를 바탕으로 합니다. 하늘의 법칙과 땅의 법칙이 하나라는 생각은 당시로서는 아주 놀라운 것이었습니다.
+전자기 유도,발전기|패러데이의 전자기 유도 발견 덕분에 움직이는 자석으로 전기를 만드는 발전기가 가능해졌습니다. 물이나 바람, 증기로 터빈을 돌리면 코일 속 자기장이 변하면서 전류가 흐릅니다. 오늘날 우리가 쓰는 전기의 대부분이 이렇게 만들어집니다.
+갈릴레이,같은 가속도|갈릴레이는 경사면에 공을 굴리는 실험으로 낙하하는 물체가 일정하게 빨라진다는 것을 확인했습니다. 훗날 달에서 우주비행사가 깃털과 망치를 동시에 떨어뜨렸더니 정말 같이 떨어졌습니다. 생각만으로 따지지 않고 실험으로 확인하는 태도가 근대 과학의 출발이었습니다.
+관성,F=ma|운동 법칙 덕분에 자동차가 급정거할 때 몸이 앞으로 쏠리는 이유와 로켓이 날아오르는 이유를 설명할 수 있습니다. 같은 힘으로 밀어도 무거운 물체는 가속도가 작게 나타납니다. 이 세 가지 법칙은 기계를 설계하는 모든 공학의 기초입니다.
+부력,밀어낸 물의 무게|아르키메데스의 부력 원리는 배가 쇳덩이인데도 물에 뜨는 이유를 알려 줍니다. 배가 밀어낸 물의 무게가 배 전체의 무게와 같아지면 배는 가라앉지 않고 뜹니다. 잠수함이 물탱크의 양을 조절해 떠오르고 가라앉는 것도 같은 원리입니다.
+프리즘,흰 빛|뉴턴은 한 번 갈라진 색을 다시 프리즘에 통과시켜도 색이 더 바뀌지 않는다는 것을 보였습니다. 그래서 색은 유리가 만든 것이 아니라 빛 자체의 성질이라고 결론지었습니다. 비 온 뒤 하늘에 뜨는 무지개도 물방울이 프리즘처럼 햇빛을 나누기 때문입니다.
+에디슨,필라멘트|에디슨은 수천 가지 재료를 시험한 끝에 대나무를 태운 탄소 필라멘트를 찾아냈습니다. 그 전구는 천 시간 넘게 켜져서 가정에서 쓸 만한 조명이 되었습니다. 지금은 훨씬 효율이 좋은 LED가 쓰이지만 빛을 쉽게 쓰는 길을 연 사람이 에디슨입니다.
+외르스테드,자기장|이 발견으로 전기와 자기가 서로 이어진 현상이라는 사실이 처음 알려졌습니다. 도선을 코일로 감으면 자기장이 더 강해져서 전자석을 만들 수 있습니다. 전자석은 스피커, 전동기, 고철 처리장의 크레인 등에 널리 쓰입니다.
+V=IR,저항|옴의 법칙에 따르면 같은 전압에서 저항이 두 배가 되면 전류는 절반으로 줄어듭니다. 옴은 이 단순한 관계를 정밀한 실험으로 확인해 법칙으로 정리했습니다. 전기 저항의 단위 옴(Ω)은 그의 이름에서 따온 것입니다. 전열기나 전구를 설계할 때도 이 식이 꼭 필요합니다.
+상대성 이론,E=mc²|상대성 이론에 따르면 빠르게 움직이는 시계는 느리게 가고, 질량이 큰 천체 근처에서는 빛도 휘어집니다. 이런 효과는 실제 관측으로 확인되었고, 위성 항법 장치도 이를 보정해야 정확한 위치를 알려 줍니다. 질량이 에너지로 바뀔 수 있다는 식은 원자력 발전의 바탕이 되었습니다.
+X선,투과|뢴트겐은 아내의 손을 찍은 사진에서 뼈와 반지가 선명하게 보이는 것을 확인했습니다. 이 발견은 몇 달 만에 병원에서 쓰였고, 뢴트겐은 1901년 첫 노벨 물리학상을 받았습니다. 오늘날 X선은 뼈 검사뿐 아니라 공항 보안 검색에도 쓰입니다.`.split("\n"),
+bio:`멘델,우성과 열성|멘델은 완두콩 수천 그루를 8년 가까이 길렀고 결과를 수학적으로 정리했습니다. 당시에는 큰 관심을 받지 못했지만 약 30년 뒤 다시 발견되어 유전학의 출발점이 되었습니다. 오늘날 유전자라고 부르는 것이 바로 멘델이 말한 유전 인자입니다.
+파스퇴르,자연발생설|파스퇴르의 실험에서 목이 휜 플라스크는 먼지와 미생물이 안으로 들어가지 못하게 막았습니다. 그는 이후 우유를 가열해 세균을 줄이는 방법을 개발했는데 이것이 저온 살균입니다. 광견병 백신도 개발해 많은 생명을 구했습니다.
+DNA,이중 나선|DNA의 이중 나선 구조는 로절린드 프랭클린이 찍은 X선 회절 사진이 큰 단서가 되었습니다. 구조가 밝혀지자 유전 정보가 염기 배열로 저장되고 복제되는 원리가 분명해졌습니다. 이 발견은 유전자 검사와 생명공학의 시작이었습니다.
+세포,코르크|훅이 본 것은 사실 죽은 식물 세포의 벽이었습니다. 그는 작은 방이라는 뜻의 라틴어에서 이름을 따서 세포라고 불렀습니다. 그의 관찰은 『마이크로그라피아』라는 책에 정밀한 그림과 함께 실려 큰 인기를 끌었습니다.
+레벤후크,미생물|레벤후크는 렌즈를 직접 갈아서 약 200배까지 확대하는 현미경을 만들었습니다. 그는 연못물과 치아 사이의 때에서 움직이는 작은 생물을 보고 신기해했습니다. 눈에 보이지 않는 생물의 세계가 있다는 사실이 이때 알려졌습니다.
+환경에 잘 맞는 개체,진화|다윈은 갈라파고스의 핀치새 부리가 섬마다 다른 모양인 것에 주목했습니다. 먹이에 알맞은 부리를 가진 새가 더 잘 살아남아 자손에게 그 특징을 물려준다는 생각이었습니다. 1859년 『종의 기원』에서 이 생각을 발표했고 생물학 전체의 기본 틀이 되었습니다.
+우두,백신|제너는 우유를 짜는 여성들이 천연두에 잘 걸리지 않는다는 말을 듣고 연구를 시작했습니다. 그는 우두 고름을 소년에게 접종한 뒤 천연두에 걸리지 않는지 확인했습니다. 이 방법은 훗날 백신으로 발전했고 천연두는 1980년 지구에서 사라졌다고 선언되었습니다.
+페니실린,항생제|플레밍이 발견한 푸른곰팡이는 세균의 세포벽을 만들지 못하게 막는 물질을 내고 있었습니다. 이후 플로리와 체인이 대량 생산법을 개발해 2차 세계대전 때 많은 부상병을 구했습니다. 세 사람은 1945년 노벨상을 함께 받았습니다.
+세포설,기본 단위|이후 피르호가 모든 세포는 이미 있던 세포에서 나온다고 덧붙여 세포설이 완성되었습니다. 이 이론 덕분에 병도 몸 전체가 아니라 세포의 이상에서 생긴다고 이해하게 되었습니다. 현대 의학과 생명과학의 기본 바탕입니다.
+조건 반사,종소리|파블로프는 원래 개의 소화 연구를 하다가 먹이를 주는 사람의 발소리만 들어도 침이 나오는 것을 우연히 알아차렸습니다. 이 연구로 1904년 노벨상을 받았습니다. 학습과 습관이 만들어지는 과정을 설명하는 심리학의 중요한 개념이 되었습니다.
+광합성,초록색|이후 식물이 이산화탄소와 물로 포도당을 만들고 산소를 내보낸다는 사실이 차례로 밝혀졌습니다. 이 과정이 있어서 지구 대기에 산소가 쌓이고 동물이 살 수 있게 되었습니다. 우리가 먹는 거의 모든 음식도 광합성에서 시작됩니다.`.split("\n"),
+che:`주기율표,원자량|멘델레예프가 비워 둔 칸에는 훗날 갈륨과 저마늄이 들어갔고 예측한 성질과 매우 비슷했습니다. 지금의 주기율표는 원자량이 아니라 원자 번호 순으로 배열합니다. 원소의 성질을 한눈에 비교하는 화학의 지도 역할을 합니다.
+원자설,더 쪼갤 수 없는|돌턴은 원소마다 원자의 질량이 다르다고 생각해 처음으로 원자량 표를 만들었습니다. 지금은 원자가 양성자, 중성자, 전자로 이루어진 것이 밝혀졌지만 원자설은 화학 반응을 설명하는 출발점이었습니다. 화학 반응은 원자의 배열이 바뀌는 것이라는 이해도 여기서 시작됩니다.
+질량 보존,라부아지에|라부아지에는 연소가 물질이 산소와 결합하는 현상임을 밝혀 당시의 플로지스톤설을 무너뜨렸습니다. 철이 녹슬면 무거워지는 것도 산소가 붙기 때문입니다. 그는 정밀한 저울을 쓰는 것이 화학 실험의 기본이라고 보여 준 사람입니다.
+보일,압력에 반비례|주사기 끝을 막고 피스톤을 누르면 안의 공기가 줄어들며 압력이 커지는 것을 느낄 수 있습니다. 잠수부가 올라올 때 몸속 공기가 팽창하는 것도 같은 원리로 설명됩니다. 보일은 연금술과 구분되는 근대 화학을 연 사람으로 평가받습니다.
+수소,가연성 기체|캐번디시가 찾은 기체는 공기보다 훨씬 가볍고 불을 붙이면 물이 생겼습니다. 이름은 물을 만든다는 뜻의 수소(Hydrogen)입니다. 오늘날 수소는 연료전지 자동차와 미래 에너지의 재료로 주목받고 있습니다.
+산소,산화수은|프리스틀리는 이 기체 속에서 촛불이 더 밝게 타고 생쥐가 더 오래 산다는 것을 관찰했습니다. 라부아지에가 이 기체의 정체를 밝히고 산소라는 이름을 붙였습니다. 호흡과 연소가 모두 산소와 관련된다는 사실이 이때 이해되었습니다.
+아보가드로,같은 수의 분자|아보가드로의 생각은 당시에는 인정받지 못했고 그가 죽은 뒤에야 받아들여졌습니다. 오늘날 물질 1몰에 들어 있는 입자의 수를 아보가드로수라고 부릅니다. 이 수는 약 6.02×10²³개로 화학 계산의 기준이 됩니다.
+폴로늄,라듐|퀴리 부부는 몇 톤의 광석에서 아주 적은 양의 라듐을 어렵게 분리해 냈습니다. 라듐에서 나오는 방사선은 암 치료에 쓰이기도 했지만 위험하다는 것도 나중에 알려졌습니다. 마리 퀴리는 물리학상과 화학상을 모두 받은 최초의 사람입니다.
+알파 입자,작고 단단한 핵|러더퍼드는 얇은 금박에 알파 입자를 쏘았을 때 대부분 통과하지만 일부가 크게 튕겨 나오는 것을 보고 놀랐습니다. 그는 원자의 대부분이 빈 공간이고 중심에 작은 핵이 있다고 해석했습니다. 이 모형은 이후 보어의 원자 모형으로 이어졌습니다.
+수소 이온,수산화 이온|산은 신맛이 나고 푸른 리트머스 종이를 붉게 하며, 염기는 미끈거리고 붉은 리트머스 종이를 푸르게 합니다. 산과 염기가 만나 서로의 성질을 잃는 반응이 중화 반응입니다. 위산이 많을 때 먹는 제산제도 중화 반응을 이용한 약입니다.
+암모니아,질소|하버의 방법에 보슈가 산업 규모의 공정을 더해 하버-보슈법이 완성되었습니다. 이 덕분에 비료를 대량으로 만들어 식량 생산이 크게 늘었습니다. 한편 암모니아는 화약의 원료로도 쓰여 과학이 가진 두 얼굴을 보여 주는 사례입니다.`.split("\n"),
+ast:`우주가 팽창,빅뱅 이론|허블은 은하의 빛이 붉은색 쪽으로 치우치는 적색 편이를 이용해 은하가 멀어지는 속도를 쟀습니다. 멀리 있는 은하일수록 속도가 빠르다는 관계는 허블의 법칙이라 불립니다. 우주가 한 점에서 시작해 커져 왔다는 생각을 뒷받침하는 중요한 증거입니다.
+코페르니쿠스,지동설|지동설은 행성이 때로 거꾸로 가는 것처럼 보이는 현상을 지구가 다른 행성을 앞지르는 것으로 간단히 설명했습니다. 그러나 당시 교회와 학자들의 반발이 커서 받아들여지기까지 오랜 시간이 걸렸습니다. 이 생각이 갈릴레이와 케플러의 연구로 이어졌습니다.
+케플러,타원 궤도|케플러의 세 가지 법칙은 행성이 태양을 한 초점으로 하는 타원 궤도를 돌고, 공전 주기의 제곱이 거리의 세제곱에 비례한다고 말합니다. 이 법칙들은 훗날 뉴턴이 만유인력을 발견하는 데 큰 도움이 되었습니다. 지금도 인공위성의 궤도를 계산할 때 쓰입니다.
+갈릴레이,목성의 위성|갈릴레이가 본 목성의 네 위성은 모든 천체가 지구 주위를 도는 것은 아니라는 증거가 되었습니다. 또 금성이 달처럼 모양이 변하는 것은 금성이 태양 주위를 돈다는 뜻이었습니다. 이 발견을 『별의 전령』이라는 책에 발표해 큰 화제가 되었습니다.
+반사 망원경,거울|거울은 빛을 색깔에 따라 다르게 꺾지 않아서 렌즈보다 상이 깨끗했습니다. 지금도 대부분의 큰 천체 망원경은 거울을 사용하는 반사 망원경입니다. 허블 우주 망원경과 제임스 웹 우주 망원경도 큰 거울로 먼 우주의 빛을 모읍니다.
+핼리,재출현|핼리 혜성은 약 76년을 주기로 찾아옵니다. 핼리는 예측이 맞는 것을 보지 못하고 세상을 떠났지만 1758년 크리스마스 밤에 정말로 혜성이 나타났습니다. 다음 접근은 2061년경으로 예상됩니다.
+세페이드 변광성,리빗|리빗은 소마젤란 은하의 변광성을 조사해 밝기가 변하는 주기가 길수록 실제로 더 밝다는 것을 알아냈습니다. 이 관계로 어떤 별의 거리를 계산할 수 있게 되었습니다. 허블이 은하까지의 거리를 재는 데 바로 이 방법을 사용했습니다.
+우주 배경 복사,빅뱅|처음에 두 사람은 안테나에 앉은 비둘기 때문에 잡음이 생긴다고 생각해 청소까지 했습니다. 그러나 잡음은 사라지지 않았고, 이 우주 배경 복사는 우주 초기의 빛이 식어 남은 것으로 밝혀졌습니다. 이 발견으로 두 사람은 1978년 노벨 물리학상을 받았습니다.
+블랙홀,사건의 지평선|블랙홀 둘레에는 사건의 지평선이라는 경계가 있어, 이 안쪽에서는 빛도 밖으로 나올 수 없습니다. 블랙홀은 아주 무거운 별이 수명을 다하고 붕괴할 때 생기기도 합니다. 2019년의 사진은 주변의 뜨거운 가스가 내는 빛을 이용해 어두운 그림자를 찍은 것입니다.
+티코 브라헤,케플러 법칙|티코는 직접 만든 큰 관측 기구로 오차가 매우 작은 자료를 모았습니다. 제자였던 케플러가 이 자료를 분석해 행성의 궤도가 타원임을 발견했습니다. 좋은 관측 자료가 좋은 이론을 만든다는 것을 보여 주는 사례입니다.
+에라토스테네스,그림자|에라토스테네스는 하짓날 한 도시에서는 우물 바닥까지 햇빛이 비치는데 다른 도시에서는 막대에 그림자가 생기는 것에 주목했습니다. 두 도시 사이의 거리와 그림자의 각도로, 지구가 둥글다는 것을 전제로 둘레를 계산했습니다. 그 값은 실제와 크게 다르지 않았다고 전해집니다.`.split("\n")};
+let H=hour(),D=day();setInterval(()=>{const n=hour(),d=day(),p=page&&page!=='toc';if(n!==H&&cur==='ma'&&p&&!busy)math(page);if(d!==D&&!busy){if(cur==='en')english();if(cur==='sc'&&p)sci(page)}H=n;D=d},20000);
+function tick(){const d=new Date(),f=o=>new Intl.DateTimeFormat('ko-KR',Object.assign({timeZone:'Asia/Seoul'},o)).format(d);$('#tm').textContent=f({hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});$('#dt').textContent=f({month:'long',day:'numeric',weekday:'short'})}tick();setInterval(tick,1000);
+
+</script></body></html>
